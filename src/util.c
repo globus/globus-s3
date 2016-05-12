@@ -116,6 +116,8 @@ int urlDecode(char *s)
                          isxdigit(*(src+2))) {
             *dest++ = (hex[*(src+1)] << 4) | (hex[*(src+2)]);
             src += 2;
+        } else if (c == '+') {
+            *dest++ = ' ';
         }
         else {
             *dest++ = *src;

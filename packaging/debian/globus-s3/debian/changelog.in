@@ -1,3 +1,9 @@
+globus-s3 (0.3-1+gt6.@distro@) @distro@; urgency=low
+
+  * Handle '+' -> ' ' conversion in url encoding
+
+ -- Globus Toolkit <support@globus.org>  Thu, 12 May 2016 15:43:40 -0400
+
 globus-s3 (0.2-1+gt6.@distro@) @distro@; urgency=low
 
   * Set encoding-type=url in bucket list operation
