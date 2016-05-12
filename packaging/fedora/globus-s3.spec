@@ -1,8 +1,8 @@
 Summary: C Library and Tools for Amazon S3 Access
 Name: globus-s3
 %global _name %(tr - _ <<< %{name})
-Version: 0.1
-Release: 3
+Version: 0.2
+Release: 1
 License: LGPL
 Group: Networking/Utilities
 URL: http://github.com/globus/globus-s3
@@ -104,6 +104,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/globus-s3.pc
 
 %changelog
+* Thu May 12 2016 Globus Toolkit <support@globus.org> - 0.2-1
+- Set encoding-type=url in bucket list operation
+
 * Thu May 05 2016 Globus Toolkit <support@globus.org> - 0.1-1
 - Address xml parsing error for prefixes
 
