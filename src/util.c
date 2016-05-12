@@ -85,6 +85,49 @@ int urlEncode(char *dest, const char *src, int maxSrcSize)
     return 1;
 }
 
+int urlDecode(char *s)
+{
+    static const unsigned char hex[] = {
+        [(unsigned) '0'] = 0,
+        [(unsigned) '1'] = 1,
+        [(unsigned) '2'] = 2,
+        [(unsigned) '3'] = 3,
+        [(unsigned) '4'] = 4,
+        [(unsigned) '5'] = 5,
+        [(unsigned) '6'] = 6,
+        [(unsigned) '7'] = 7,
+        [(unsigned) '8'] = 8,
+        [(unsigned) '9'] = 9,
+        [(unsigned) 'a'] = 0xa, [(unsigned) 'A'] = 0xa,
+        [(unsigned) 'b'] = 0xb, [(unsigned) 'B'] = 0xb,
+        [(unsigned) 'c'] = 0xc, [(unsigned) 'C'] = 0xc,
+        [(unsigned) 'd'] = 0xd, [(unsigned) 'D'] = 0xd,
+        [(unsigned) 'e'] = 0xe, [(unsigned) 'E'] = 0xe,
+        [(unsigned) 'f'] = 0xf, [(unsigned) 'F'] = 0xf
+    };
+    const unsigned char *src = (unsigned char *) s;
+    unsigned char *dest = s;
+
+    int len = 0;
+
+    if (src) while (*src) {
+        unsigned char c = *src;
+        if (c == '%' && isxdigit(*(src+1)) &&
+                         isxdigit(*(src+2))) {
+            *dest++ = (hex[*(src+1)] << 4) | (hex[*(src+2)]);
+            src += 2;
+        }
+        else {
+            *dest++ = *src;
+        }
+        src++;
+    }
+
+    *dest = 0;
+
+    return 1;
+}
+
 
 int64_t parseIso8601Time(const char *str)
 {

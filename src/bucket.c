@@ -568,8 +568,21 @@ static S3Status listBucketXmlCallback(const char *elementPath,
             }
         }
         else if (!strcmp(elementPath,
+                         "ListBucketResult/Contents/Key")) {
+            ListBucketContents *contents = 
+                &(lbData->contents[lbData->contentsCount]);
+
+            urlDecode(contents->key);
+        }
+        else if (!strcmp(elementPath,
+                         "ListBucketResult/NextMarker")) {
+            urlDecode(lbData->nextMarker);
+        }
+        else if (!strcmp(elementPath,
                          "ListBucketResult/CommonPrefixes/Prefix")) {
             // Finished a Prefix
+            urlDecode(lbData->commonPrefixes[lbData->commonPrefixesCount]);
+
             lbData->commonPrefixesCount++;
             if (lbData->commonPrefixesCount == MAX_COMMON_PREFIXES) {
                 // Make the callback
@@ -687,6 +700,7 @@ void S3_list_bucket(const S3BucketContext *bucketContext, const char *prefix,
     if (delimiter && *delimiter) {
         safe_append("delimiter", delimiter);
     }
+    safe_append("encoding-type", "url");
     if (maxkeys) {
         char maxKeysString[64];
         snprintf(maxKeysString, sizeof(maxKeysString), "%d", maxkeys);

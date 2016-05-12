@@ -1229,7 +1229,7 @@ void request_perform(const RequestParams *params, S3RequestContext *context)
         return_status(status);
     }
     if (context && context->verifyPeerSet) {
-        verifyPeerRequest = context->verifyPeerSet;
+        verifyPeerRequest = context->verifyPeer;
     }
     // Allow per-context override of verifyPeer
     if (verifyPeerRequest != verifyPeer) {

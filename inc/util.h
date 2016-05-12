@@ -73,6 +73,9 @@
 // urlEncode, else nonzero is returned.
 int urlEncode(char *dest, const char *src, int maxSrcSize);
 
+// URL-decodes a string in s.
+int urlDecode(char *s);
+
 // Returns < 0 on failure >= 0 on success
 int64_t parseIso8601Time(const char *str);
 
