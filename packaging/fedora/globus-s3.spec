@@ -1,8 +1,9 @@
 Summary: C Library and Tools for Amazon S3 Access
 Name: globus-s3
 %global _name %(tr - _ <<< %{name})
+%global soname 0
 Version: 0.3
-Release: 1
+Release: 2
 License: LGPL
 Group: Networking/Utilities
 URL: http://github.com/globus/globus-s3
@@ -46,9 +47,26 @@ Requires: libcurl
 
 Requires: libxml2
 
+%if %{?suse_version}%{!?suse_version:0} >= 1315
+%global mainpkg lib%{name}-%{soname}
+%global nmainpkg -n %{mainpkg}
+%else
+%global mainpkg %{name}
+%endif
+
 %description
 This package is a modified version of libs3 which adds support for
 accessing the Ceph Rados Gateway Admin endpoint to access user information.
+
+%if %{?nmainpkg:1}%{!?nmainpkg:0} != 0
+%package %{nmainpkg}
+Summary:        Library for %{name}
+Group:          System Environment/Libraries
+%description %{nmainpkg}
+This package is a modified version of libs3 which adds support for
+accessing the Ceph Rados Gateway Admin endpoint to access user information.
+This package includes the development header files and libraries.
+%endif
 
 %package devel
 Summary: Headers and documentation for %{name}
@@ -93,17 +111,26 @@ rm -f $RPM_BUILD_ROOT%{_bindir}/s3
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
+%post %{?nmainpkg} -p /sbin/ldconfig
+
+%postun %{?nmainpkg} -p /sbin/ldconfig
+
+%files %{?nmainpkg}
 %defattr(-,root,root,-)
 %{_libdir}/libglobus_s3.so.*
 
 %files devel
 %defattr(-,root,root,-)
+%dir %{_includedir}/globus
+%dir %{_includedir}/globus/%{name}
 %{_includedir}/globus/%{name}/*.h
 %{_libdir}/libglobus_s3.so
 %{_libdir}/pkgconfig/globus-s3.pc
 
 %changelog
+* Thu Oct 13 2016 Globus Toolkit <support@globus.org> - 0.3-2
+- SLES 12 packaging updates
+
 * Thu May 12 2016 Globus Toolkit <support@globus.org> - 0.3-1
 - Handle '+' -> ' ' conversion in url encoding
 
