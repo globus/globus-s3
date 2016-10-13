@@ -2,13 +2,13 @@ Summary: C Library and Tools for Amazon S3 Access
 Name: globus-s3
 %global _name %(tr - _ <<< %{name})
 %if %{?suse_version}%{!?suse_version:0} >= 1315
-%global license LGPL
-%else
 %global license LGPL-3.0
+%else
+%global license LGPL
 %endif
 %global soname 0
 Version: 0.3
-Release: 3
+Release: 4
 License: %{license}
 Group: Networking/Utilities
 URL: http://github.com/globus/globus-s3
