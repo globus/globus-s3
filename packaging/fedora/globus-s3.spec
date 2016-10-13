@@ -8,7 +8,7 @@ Name: globus-s3
 %endif
 %global soname 0
 Version: 0.3
-Release: 4
+Release: 5
 License: %{license}
 Group: Networking/Utilities
 URL: http://github.com/globus/globus-s3
@@ -78,7 +78,7 @@ This package includes the development header files and libraries.
 %package devel
 Summary: Headers and documentation for %{name}
 Group: Development/Libraries
-Requires: %{name} = %{version}-%{release}
+Requires: %{mainpkg} = %{version}-%{release}
 
 %description devel
 This package is a modified version of libs3 which adds support for
@@ -135,7 +135,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/globus-s3.pc
 
 %changelog
-* Thu Oct 13 2016 Globus Toolkit <support@globus.org> - 0.3-3
+* Thu Oct 13 2016 Globus Toolkit <support@globus.org> - 0.3-5
 - SLES 12 packaging updates
 
 * Thu May 12 2016 Globus Toolkit <support@globus.org> - 0.3-1
