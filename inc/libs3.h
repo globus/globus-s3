@@ -853,7 +853,7 @@ typedef struct S3PutProperties
     const char *contentEncoding;
 
     /**
-     * If >= 0, this gives an expiration date for the content.  This
+     * If > 0, this gives an expiration date for the content.  This
      * information is typically only delivered to users who download the
      * content via a web browser.
      **/

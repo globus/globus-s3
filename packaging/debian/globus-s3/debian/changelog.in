@@ -1,3 +1,9 @@
+globus-s3 (0.4-1+gt6.@distro@) @distro@; urgency=low
+
+  * Don't set expires header when S3PutProperties.expires == 0
+
+ -- Globus Toolkit <support@globus.org>  Wed, 19 Apr 2017 10:04:11 -0500
+
 globus-s3 (0.3-1+gt6.@distro@) @distro@; urgency=low
 
   * Handle '+' -> ' ' conversion in url encoding

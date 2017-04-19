@@ -482,7 +482,7 @@ static S3Status compose_standard_headers(const RequestParams *params,
                   S3StatusContentEncodingTooLong);
     
     // Expires
-    if (params->putProperties && (params->putProperties->expires >= 0)) {
+    if (params->putProperties && (params->putProperties->expires > 0)) {
         time_t t = (time_t) params->putProperties->expires;
         struct tm gmt;
         strftime(values->expiresHeader, sizeof(values->expiresHeader),

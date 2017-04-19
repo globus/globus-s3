@@ -7,8 +7,8 @@ Name: globus-s3
 %global license LGPL
 %endif
 %global soname 0
-Version: 0.3
-Release: 5
+Version: 0.4
+Release: 1
 License: %{license}
 Group: Networking/Utilities
 URL: http://github.com/globus/globus-s3
@@ -135,6 +135,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/globus-s3.pc
 
 %changelog
+* Wed Apr 19 2017 Globus Toolkit <support@globus.org> - 0.4-1
+- Don't set expires header when S3PutProperties.expires == 0
+
 * Thu Oct 13 2016 Globus Toolkit <support@globus.org> - 0.3-5
 - SLES 12 packaging updates
 
