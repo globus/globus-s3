@@ -32,6 +32,8 @@ if [ -z "$S3_COMMAND" ]; then
     S3_COMMAND=s3
 fi
 
+failures=0
+
 TEST_BUCKET=${TEST_BUCKET_PREFIX}.testbucket
 
 echo "1..$total_tests"
