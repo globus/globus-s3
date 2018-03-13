@@ -76,7 +76,7 @@ libglobus_s3_la_SOURCES += \
 endif
 
 libglobus_s3_la_LDFLAGS = -no-undefined \
-        -version-info 0:1:0 \
+        -version-info $(MAJOR_VERSION):$(MINOR_VERSION):$(AGE_VERSION) \
 	$(AM_LDFLAGS)
 
 s3_SOURCES = src/s3.c
