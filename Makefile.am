@@ -50,10 +50,10 @@ libglobus_s3_la_SOURCES = \
 	inc/simplexml.h \
 	inc/string_buffer.h \
 	inc/util.h \
-        src/acl.c \
         src/bucket.c \
         src/error_parser.c \
         src/general.c \
+        src/bucket_metadata.c \
         src/multipart.c \
         src/object.c \
         src/request.c  \

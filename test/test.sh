@@ -32,6 +32,19 @@ if [ -z "$S3_COMMAND" ]; then
     S3_COMMAND=s3
 fi
 
+if [ -z "$S3_REGION" ]; then
+    S3_REGION="us-east-1"
+fi
+
+S3_COMMAND="$S3_COMMAND --region $S3_REGION"
+
+if [ -z "$S3_LOCATION" ]; then
+    S3_LOCATION="us-east-1"
+fi
+
+
+failures=0
+
 TEST_BUCKET=${TEST_BUCKET_PREFIX}.testbucket
 
 echo "1..$total_tests"
@@ -68,7 +81,7 @@ ok()
     return $rc
 }
 
-ok "Create the test bucket" "$S3_COMMAND create $TEST_BUCKET"
+ok "Create the test bucket" "$S3_COMMAND create $TEST_BUCKET location=$S3_LOCATION"
 
 ok "List to find it" "$S3_COMMAND list | grep '^$TEST_BUCKET '"
 
@@ -103,7 +116,7 @@ ok "Remove the test bucket" "$S3_COMMAND delete $TEST_BUCKET"
 
 ok "Make sure it's not there" "$S3_COMMAND list | grep '^$TEST_BUCKET '" 1
 
-ok "Now create it again" "$S3_COMMAND create $TEST_BUCKET"
+ok "Now create it again" "$S3_COMMAND create $TEST_BUCKET location=$S3_LOCATION"
 ok "Put 10 files in it" "
     myfail=0;
     for i in $(seq 0 9); do
@@ -128,7 +141,7 @@ ok "List with all details" "
 COPY_BUCKET="${TEST_BUCKET_PREFIX}.copybucket"
 
 ok "Create another test bucket copy a file into it" "
-    $S3_COMMAND create $COPY_BUCKET;
+    $S3_COMMAND create $COPY_BUCKET location=$S3_LOCATION;
     $S3_COMMAND copy $TEST_BUCKET/key_5 $COPY_BUCKET/copykey
 "
 
