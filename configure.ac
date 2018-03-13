@@ -1,4 +1,4 @@
-AC_INIT([globus_s3], [0.4], [https://github.com/globus/libs3])
+AC_INIT([globus_s3], [1.0], [https://github.com/globus/libs3])
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([1.11 foreign subdir-objects])
 AC_CONFIG_MACRO_DIRS([m4])
@@ -6,8 +6,8 @@ LT_INIT([win32-dll])
 
 AC_CANONICAL_HOST
 
-LIBS3_VER_MAJOR=0
-LIBS3_VER_MINOR=0
+LIBS3_VER_MAJOR=4
+LIBS3_VER_MINOR=1
 LIBS3_VER="$LIBS3_VER_MAJOR.$LIBS3_VER_MINOR"
 
 AC_SUBST(LIBS3_VER_MAJOR)

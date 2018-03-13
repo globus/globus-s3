@@ -7,7 +7,7 @@ Name: globus-s3
 %global license LGPL
 %endif
 %global soname 0
-Version: 0.4
+Version: 1.0
 Release: 1
 License: %{license}
 Group: Networking/Utilities
@@ -30,16 +30,13 @@ Buildrequires: libcurl-devel
 %endif
 
 BuildRequires: libxml2-devel
-BuildRequires: openssl-devel
 
-%if %{?rhel}%{!?rhel:0} == 5 || %{?rhel}%{!?rhel:0} == 6
-Requires: openssl
+%if %{?suse_version}%{!?suse_version:0} >= 1315
+BuildRequires:  openssl
+BuildRequires:  libopenssl-devel
 %else
-%if %{?suse_version}%{!?suse_version:0} > 0
-Requires: libopenssl0_9_8
-%else
-Requires: openssl-libs
-%endif
+BuildRequires:  openssl
+BuildRequires:  openssl-devel
 %endif
 
 %if %{?rhel}%{!?rhel:0} == 5
@@ -135,6 +132,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/globus-s3.pc
 
 %changelog
+* Tue Apr 13 2018 Globus Toolkit <support@globus.org> - 1.0-1
+- pull in 4.1 upstream changes
+- adds support for V4 signatures
+
 * Wed Apr 19 2017 Globus Toolkit <support@globus.org> - 0.4-1
 - Don't set expires header when S3PutProperties.expires == 0
 

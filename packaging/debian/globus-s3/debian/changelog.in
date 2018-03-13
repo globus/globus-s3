@@ -1,3 +1,10 @@
+globus-s3 (1.0-1+gt6.@distro@) @distro@; urgency=low
+  
+  * pull in 4.1 upstream changes
+  * adds support for V4 signatures
+
+ -- Globus Toolkit <support@globus.org>  Tue, 13 Mar 2018 13:44:19 -0500
+
 globus-s3 (0.4-1+gt6.@distro@) @distro@; urgency=low
 
   * Don't set expires header when S3PutProperties.expires == 0
