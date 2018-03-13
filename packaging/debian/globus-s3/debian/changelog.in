@@ -1,4 +1,4 @@
-globus-s3 (1.0-1+gt6.@distro@) @distro@; urgency=low
+globus-s3 (1.0-2+gt6.@distro@) @distro@; urgency=low
   
   * pull in 4.1 upstream changes
   * adds support for V4 signatures
