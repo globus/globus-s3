@@ -1,15 +1,10 @@
-globus-s3 (1.1-1+gt6.@distro@) @distro@; urgency=low
+globus-s3 (1.1-2+gt6.@distro@) @distro@; urgency=low
 
   * fix versioning in build files
-
- -- Globus Toolkit <support@globus.org>  Tue, 13 Mar 2018 17:17:58 -0500
-
-globus-s3 (1.0-2+gt6.@distro@) @distro@; urgency=low
-  
   * pull in 4.1 upstream changes
   * adds support for V4 signatures
 
- -- Globus Toolkit <support@globus.org>  Tue, 13 Mar 2018 13:44:19 -0500
+ -- Globus Toolkit <support@globus.org>  Tue, 13 Mar 2018 17:17:58 -0500 
 
 globus-s3 (0.4-1+gt6.@distro@) @distro@; urgency=low
 

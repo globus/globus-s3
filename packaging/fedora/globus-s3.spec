@@ -7,8 +7,8 @@ Name: globus-s3
 %global license LGPL
 %endif
 %global soname 1
-Version:	1.1
-Release:	1
+Version: 1.1
+Release: 2%{?dist}
 License: %{license}
 Group: Networking/Utilities
 URL: http://github.com/globus/globus-s3
@@ -132,10 +132,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/globus-s3.pc
 
 %changelog
-* Tue Mar 13 2018 Globus Toolkit <support@globus.org> - 1.1-1
+* Tue Mar 13 2018 Globus Toolkit <support@globus.org> - 1.1-2
 - fix versioning in build files
-
-* Tue Apr 13 2018 Globus Toolkit <support@globus.org> - 1.0-2
 - pull in 4.1 upstream changes
 - adds support for V4 signatures
 
