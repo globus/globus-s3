@@ -1,4 +1,4 @@
-globus-s3 (1.1-2+gt6.@distro@) @distro@; urgency=low
+globus-s3 (1.1-3+gt6.@distro@) @distro@; urgency=low
 
   * fix versioning in build files
   * pull in 4.1 upstream changes
