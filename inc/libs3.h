@@ -612,7 +612,8 @@ typedef struct S3ResponseProperties
      * If this value is 0, then server-side encryption is not in effect for
      * the object (or the request was one for which server-side encryption is
      * not a meaningful value); if this value is non-zero, then server-side
-     * encryption is in effect for the object.
+     * encryption is in effect for the object.  The non-zero value indicates
+     * the type of server-side encryption: 1 for SSE-S3, 2 for SSE-KMS.
      **/
     char usesServerSideEncryption;
 } S3ResponseProperties;

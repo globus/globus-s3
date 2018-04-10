@@ -7,8 +7,8 @@ Name: globus-s3
 %global license LGPL
 %endif
 %global soname 1
-Version: 1.1
-Release: 2%{?dist}
+Version:	1.2
+Release:	1%{?dist}
 License: %{license}
 Group: Networking/Utilities
 URL: http://github.com/globus/globus-s3
@@ -132,6 +132,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/globus-s3.pc
 
 %changelog
+* Tue Apr 10 2018 Globus Toolkit <support@globus.org> - 1.2-1
+- recognize SSE-KMS encryption
+
 * Tue Mar 13 2018 Globus Toolkit <support@globus.org> - 1.1-2
 - fix versioning in build files
 - pull in 4.1 upstream changes

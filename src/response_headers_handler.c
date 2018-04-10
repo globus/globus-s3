@@ -194,9 +194,12 @@ void response_headers_handler_add(ResponseHeadersHandler *handler,
         if (!strncmp(c, "AES256", sizeof("AES256") - 1)) {
             responseProperties->usesServerSideEncryption = 1;
         }
-        // Ignore other values - only AES256 is expected, anything else is
-        // assumed to be "None" or some other value indicating no server-side
-        // encryption
+        else if (!strncmp(c, "aws:kms", sizeof("aws:kms") - 1)) {
+            responseProperties->usesServerSideEncryption = 2;
+        }
+        // Ignore other values - only AES256 or aws:kms is expected, anything 
+        // else is assumed to be "None" or some other value indicating no 
+        // server-side encryption
     }
 }
 
