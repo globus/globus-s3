@@ -675,9 +675,16 @@ void S3_list_bucket(const S3BucketContext *bucketContext, const char *prefix,
                     int timeoutMs,
                     const S3ListBucketHandler *handler, void *callbackData)
 {
+
+    static int no_encoding = -1;
+
     // Compose the query params
     string_buffer(queryParams, 4096);
     string_buffer_initialize(queryParams);
+ 
+    if (no_encoding == -1) {
+        no_encoding = (getenv("GLOBUS_S3_GOOGLE_CLOUD") != NULL);
+    }
 
 #define safe_append(name, value)                                        \
     do {                                                                \
@@ -724,7 +731,9 @@ void S3_list_bucket(const S3BucketContext *bucketContext, const char *prefix,
     if (delimiter && *delimiter) {
         safe_append("delimiter", delimiter);
     }
-    safe_append("encoding-type", "url");
+    if (!no_encoding) {
+        safe_append("encoding-type", "url");
+    }
     if (maxkeys) {
         char maxKeysString[64];
         snprintf(maxKeysString, sizeof(maxKeysString), "%d", maxkeys);

@@ -1,4 +1,4 @@
-AC_INIT([globus_s3], [1.2], [https://github.com/globus/libs3])
+AC_INIT([globus_s3], [1.3], [https://github.com/globus/libs3])
 AC_SUBST([AGE_VERSION], [0])
 AC_SUBST([MAJOR_VERSION], [${PACKAGE_VERSION%%.*}])
 AC_SUBST([MINOR_VERSION], [${PACKAGE_VERSION##*.}])

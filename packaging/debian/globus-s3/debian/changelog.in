@@ -1,3 +1,9 @@
+globus-s3 (1.3-1+gt6.@distro@) @distro@; urgency=low
+
+  * add GLOBUS_S3_GOOGLE_CLOUD env to disable encoding-type query param
+
+ -- Globus Toolkit <support@globus.org>  Fri, 22 Jun 2018 12:41:33 -0500
+
 globus-s3 (1.2-1+gt6.@distro@) @distro@; urgency=low
 
   * recognize SSE-KMS encryption
