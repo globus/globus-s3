@@ -61,6 +61,8 @@ static int requestStackCountG;
 
 char defaultHostNameG[S3_MAX_HOSTNAME_SIZE];
 
+static int debug = 0;
+static FILE * debugFILE = NULL;
 
 typedef struct RequestComputedValues
 {
@@ -401,37 +403,41 @@ static S3Status compose_amz_headers(const RequestParams *params,
         }
     }
 
-    // Add the x-amz-security-token header if necessary
-    if (params->bucketContext.securityToken) {
-        append_amz_header(values, 0, "x-amz-security-token",
-                          params->bucketContext.securityToken);
-    }
+    // Add authorization related headers if not anonymous
+    if (params->bucketContext.secretAccessKey) {
 
-    if (!forceUnsignedPayload
-        && (params->httpRequestType == HttpRequestTypeGET
-            || params->httpRequestType == HttpRequestTypeCOPY
-            || params->httpRequestType == HttpRequestTypeDELETE
-            || params->httpRequestType == HttpRequestTypeHEAD)) {
-        // empty payload
-        unsigned char md[S3_SHA256_DIGEST_LENGTH];
-#ifdef __APPLE__
-        CC_SHA256("", 0, md);
-#else
-        SHA256((const unsigned char*) "", 0, md);
-#endif
-        values->payloadHash[0] = '\0';
-        int i = 0;
-        for (; i < S3_SHA256_DIGEST_LENGTH; i++) {
-            snprintf(&(values->payloadHash[i * 2]), 3, "%02x", md[i]);
+        // Add the x-amz-security-token header if necessary
+        if (params->bucketContext.securityToken) {
+            append_amz_header(values, 0, "x-amz-security-token",
+                              params->bucketContext.securityToken);
         }
-    }
-    else {
-        // TODO: figure out how to manage signed payloads
-        strcpy(values->payloadHash, "UNSIGNED-PAYLOAD");
-    }
 
-    append_amz_header(values, 0, "x-amz-content-sha256",
-                      values->payloadHash);
+        if (!forceUnsignedPayload
+            && (params->httpRequestType == HttpRequestTypeGET
+                || params->httpRequestType == HttpRequestTypeCOPY
+                || params->httpRequestType == HttpRequestTypeDELETE
+                || params->httpRequestType == HttpRequestTypeHEAD)) {
+            // empty payload
+            unsigned char md[S3_SHA256_DIGEST_LENGTH];
+    #ifdef __APPLE__
+            CC_SHA256("", 0, md);
+    #else
+            SHA256((const unsigned char*) "", 0, md);
+    #endif
+            values->payloadHash[0] = '\0';
+            int i = 0;
+            for (; i < S3_SHA256_DIGEST_LENGTH; i++) {
+                snprintf(&(values->payloadHash[i * 2]), 3, "%02x", md[i]);
+            }
+        }
+        else {
+            // TODO: figure out how to manage signed payloads
+            strcpy(values->payloadHash, "UNSIGNED-PAYLOAD");
+        }
+
+        append_amz_header(values, 0, "x-amz-content-sha256",
+                          values->payloadHash);
+    }
 
     return S3StatusOK;
 }
@@ -1141,7 +1147,14 @@ static S3Status setup_curl(Request *request,
     }
 
     // Debugging only
-    // curl_easy_setopt_safe(CURLOPT_VERBOSE, 1);
+    if (debug)
+    {
+        curl_easy_setopt_safe(CURLOPT_VERBOSE, 1);
+        if (debugFILE)
+        {
+            curl_easy_setopt_safe(CURLOPT_STDERR, debugFILE);
+        }
+    }
 
     // Set private data to request for the benefit of S3RequestContext
     curl_easy_setopt_safe(CURLOPT_PRIVATE, request);
@@ -1415,6 +1428,19 @@ static void request_release(Request *request)
 S3Status request_api_initialize(const char *userAgentInfo, int flags,
                                 const char *defaultHostName)
 {
+    char * debugPath = NULL;
+    debugPath = getenv("GLOBUS_LIBS3_DEBUG_FILE");
+    if (debugPath) {
+        debug = 1;
+        debugFILE = fopen(debugPath, "a");
+        if (debugFILE) {
+            setbuf(debugFILE, NULL);
+        }
+    }
+    else {
+        debug = (getenv("GLOBUS_LIBS3_DEBUG") != NULL);
+    }
+
     if (curl_global_init(CURL_GLOBAL_ALL &
                          ~((flags & S3_INIT_WINSOCK) ? 0 : CURL_GLOBAL_WIN32))
         != CURLE_OK) {
@@ -1466,6 +1492,9 @@ void request_api_deinitialize()
     while (requestStackCountG--) {
         request_destroy(requestStackG[requestStackCountG]);
     }
+    if (debugFILE) {
+        fclose(debugFILE);
+    }
 }
 
 static S3Status setup_request(const RequestParams *params,
@@ -1504,18 +1533,26 @@ static S3Status setup_request(const RequestParams *params,
         return status;
     }
 
-    // Compute the canonicalized amz headers
-    canonicalize_signature_headers(computed);
+    // Add authorization headers if not anonymous
+    if (params->bucketContext.secretAccessKey)
+    {
+        // Compute the canonicalized amz headers
+        canonicalize_signature_headers(computed);
 
-    // Compute the canonicalized resource
-    canonicalize_resource(&params->bucketContext, computed->urlEncodedKey,
-                          computed->canonicalURI);
-    canonicalize_query_string(params->queryParams, params->subResource,
-                              computed->canonicalQueryString);
+        // Compute the canonicalized resource
+        canonicalize_resource(&params->bucketContext, computed->urlEncodedKey,
+                              computed->canonicalURI);
+        canonicalize_query_string(params->queryParams, params->subResource,
+                                  computed->canonicalQueryString);
 
-    // Compose Authorization header
-    if ((status = compose_auth_header(params, computed)) != S3StatusOK) {
-        return status;
+        // Compose Authorization header
+        if ((status = compose_auth_header(params, computed)) != S3StatusOK) {
+            return status;
+        }
+    }
+    else
+    {
+        computed->authorizationHeader[0] = 0;
     }
 
 #ifdef SIGNATURE_DEBUG
