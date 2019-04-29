@@ -8,7 +8,7 @@ pipeline {
                 build(
                     job: 'Process Package.git',
                     propagate: true,
-                    parameters=[
+                    parameters: [
                         'SOURCE_CREATOR': 'CreateGitHubSourcePackage.gt6',
                         'PACKAGE': 'globus-s3',
                         'GIT_REPO': 'https://github.com/globus/globus-s3.git',
