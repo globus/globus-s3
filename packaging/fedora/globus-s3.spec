@@ -7,7 +7,7 @@ Name: globus-s3
 %global license LGPL
 %endif
 %global soname 1
-Version:	1.4
+Version:	1.5
 Release:	1%{?dist}
 License: %{license}
 Group: Networking/Utilities
@@ -132,7 +132,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/globus-s3.pc
 
 %changelog
-* Thu Nov 01 2018 Globus Toolkit <support@globus.org> - 1.4-1 
+* Mon Apr 29 2019 Globus Toolkit <support@globus.org> - 1.5-1
+- Update for compatibility with libcurl >7.62.0
+
+* Thu Nov 01 2018 Globus Toolkit <support@globus.org> - 1.4-1
 - Make anonymous requests when credentials aren't available (closes #2)
 - Add GLOBUS_LIBS3_DEBUG_FILE env var to capture curl debug
 

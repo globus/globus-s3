@@ -1,3 +1,9 @@
+globus-s3 (1.5-1+gt6.@distro@) @distro@; urgency=low
+
+  * Update for compatibility with libcurl >7.62.0
+
+ -- Globus Toolkit <support@globus.org>  Mon, 29 Apr 2019 18:07:04 -0400
+
 globus-s3 (1.4-1+gt6.@distro@) @distro@; urgency=low
 
   * Make anonymous requests when credentials aren't available (closes #2)
