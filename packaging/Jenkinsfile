@@ -1,7 +1,7 @@
 pipeline {
     agent none
     parameters {
-        string(name: 'DONT_BUILD_LABLES')
+        string(name: 'DONT_BUILD_LABLES', defaultValue: '')
     }
     stages {
         stage("build") {
