@@ -9,7 +9,7 @@ pipeline {
                 propagate: true,
                 parameters=[
                     'SOURCE_CREATOR': 'CreateGitHubSourcePackage.gt6',
-                    'PACKAGE': 'globus-s3'
+                    'PACKAGE': 'globus-s3',
                     'GIT_REPO': 'https://github.com/globus/globus-s3.git',
                     'GIT_BRANCH': 'master',
                     'BINARIES_JOB': 'BuildBinaries',
