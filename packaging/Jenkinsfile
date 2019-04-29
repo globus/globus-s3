@@ -1,4 +1,5 @@
 pipeline {
+    agent none
     parameters {
         string(name: 'DONT_BUILD_LABLES')
     }
