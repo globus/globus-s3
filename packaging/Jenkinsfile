@@ -33,7 +33,7 @@ pipeline {
                             value: 'PublishBinaries.gt6'),
                         string(
                             name: 'DONT_BUILD_LABELS',
-                            value: params.DONT_BUILD_LABELS),
+                            value: "${params.DONT_BUILD_LABELS}"),
                         string(
                             name: 'REPO',
                             value: 'repo6'),
