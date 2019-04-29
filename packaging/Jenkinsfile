@@ -10,16 +10,36 @@ pipeline {
                     job: 'Process Package.git',
                     propagate: true,
                     parameters: [
-                        'SOURCE_CREATOR': 'CreateGitHubSourcePackage.gt6',
-                        'PACKAGE': 'globus-s3',
-                        'GIT_REPO': 'https://github.com/globus/globus-s3.git',
-                        'GIT_BRANCH': 'master',
-                        'BINARIES_JOB': 'BuildBinaries',
-                        'GIT_PATH': '.',
-                        'PUBLISH_BINARIES_JOB': 'PublishBinaries.gt6',
-                        'DONT_BUILD_LABELS': params.DONT_BUILD_LABELS,
-                        'REPO': 'repo6',
-                        'PUBLISH_SOURCE': true
+                        string(
+                            name: 'SOURCE_CREATOR',
+                            value: 'CreateGitHubSourcePackage.gt6'),
+                        string(
+                            name: 'PACKAGE',
+                            value: 'globus-s3'),
+                        string(
+                            name: 'GIT_REPO',
+                            value: 'https://github.com/globus/globus-s3.git'),
+                        string(
+                            name: 'GIT_BRANCH',
+                            value: 'master'),
+                        string(
+                            name: 'BINARIES_JOB',
+                            value: 'BuildBinaries'),
+                        string(
+                            name: 'GIT_PATH',
+                            value: '.'),
+                        string(
+                            name: 'PUBLISH_BINARIES_JOB',
+                            value: 'PublishBinaries.gt6'),
+                        string(
+                            name: 'DONT_BUILD_LABELS',
+                            value: params.DONT_BUILD_LABELS),
+                        string(
+                            name: 'REPO',
+                            value: 'repo6'),
+                        booleanParam(
+                            name: 'PUBLISH_SOURCE',
+                            value: true)
                 ])
             }
         }
