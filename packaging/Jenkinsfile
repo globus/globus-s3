@@ -4,21 +4,23 @@ pipeline {
     }
     stages {
         stage("build") {
-            build(
-                job: 'Process Package.git',
-                propagate: true,
-                parameters=[
-                    'SOURCE_CREATOR': 'CreateGitHubSourcePackage.gt6',
-                    'PACKAGE': 'globus-s3',
-                    'GIT_REPO': 'https://github.com/globus/globus-s3.git',
-                    'GIT_BRANCH': 'master',
-                    'BINARIES_JOB': 'BuildBinaries',
-                    'GIT_PATH': '.',
-                    'PUBLISH_BINARIES_JOB': 'PublishBinaries.gt6',
-                    'DONT_BUILD_LABELS': params.DONT_BUILD_LABELS,
-                    'REPO': 'repo6',
-                    'PUBLISH_SOURCE': true
-            ])
+            steps {
+                build(
+                    job: 'Process Package.git',
+                    propagate: true,
+                    parameters=[
+                        'SOURCE_CREATOR': 'CreateGitHubSourcePackage.gt6',
+                        'PACKAGE': 'globus-s3',
+                        'GIT_REPO': 'https://github.com/globus/globus-s3.git',
+                        'GIT_BRANCH': 'master',
+                        'BINARIES_JOB': 'BuildBinaries',
+                        'GIT_PATH': '.',
+                        'PUBLISH_BINARIES_JOB': 'PublishBinaries.gt6',
+                        'DONT_BUILD_LABELS': params.DONT_BUILD_LABELS,
+                        'REPO': 'repo6',
+                        'PUBLISH_SOURCE': true
+                ])
+            }
         }
     }
 }
