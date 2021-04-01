@@ -15,4 +15,6 @@ override_dh_auto_configure:
 
 # main packaging script based on dh7 syntax
 %:
-	dh $@  --with autotools-dev
+	dh $@
+
+.PHONY: override_dh_auto_configure

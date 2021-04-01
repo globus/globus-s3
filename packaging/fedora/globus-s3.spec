@@ -1,11 +1,7 @@
 Summary: C Library and Tools for Amazon S3 Access
 Name: globus-s3
 %global _name %(tr - _ <<< %{name})
-%if %{?suse_version}%{!?suse_version:0} >= 1315
-%global license LGPL-3.0
-%else
 %global license LGPL
-%endif
 %global soname 1
 Version:	1.5
 Release:	1%{?dist}
@@ -17,65 +13,29 @@ Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
 BuildRequires:	pkgconfig
 
-%if %{?fedora}%{!?fedora:0} >= 19 || %{?rhel}%{!?rhel:0} >= 7
 BuildRequires:  automake >= 1.11
 BuildRequires:  autoconf >= 2.60
 BuildRequires:  libtool >= 2.2
-%endif
 
-%if %{?rhel}%{!?rhel:0} == 5
-Buildrequires: curl-devel
-%else
 Buildrequires: libcurl-devel
-%endif
 
 BuildRequires: libxml2-devel
 
-%if %{?suse_version}%{!?suse_version:0} >= 1315
-BuildRequires:  openssl
-BuildRequires:  libopenssl-devel
-%else
 BuildRequires:  openssl
 BuildRequires:  openssl-devel
-%endif
 
-%if %{?rhel}%{!?rhel:0} == 5
-Requires: curl
-%else
-%if %{?suse_version}%{!?suse_version:0} > 0
-Requires: libcurl4
-%else
 Requires: libcurl
-%endif
-%endif
 
 Requires: libxml2
-
-%if %{?suse_version}%{!?suse_version:0} >= 1315
-%global mainpkg lib%{_name}-%{soname}
-%global nmainpkg -n %{mainpkg}
-%else
-%global mainpkg %{name}
-%endif
 
 %description
 This package is a modified version of libs3 which adds support for
 accessing the Ceph Rados Gateway Admin endpoint to access user information.
 
-%if %{?nmainpkg:1}%{!?nmainpkg:0} != 0
-%package %{nmainpkg}
-Summary:        Library for %{name}
-Group:          System Environment/Libraries
-%description %{nmainpkg}
-This package is a modified version of libs3 which adds support for
-accessing the Ceph Rados Gateway Admin endpoint to access user information.
-This package includes the development header files and libraries.
-%endif
-
 %package devel
 Summary: Headers and documentation for %{name}
 Group: Development/Libraries
-Requires: %{mainpkg} = %{version}-%{release}
+Requires: %{name} = %{version}-%{release}
 
 %description devel
 This package is a modified version of libs3 which adds support for
@@ -86,12 +46,10 @@ This package includes the development header files and libraries.
 %setup -q -n %{_name}-%{version}
 
 %build
-%if %{?fedora}%{!?fedora:0} >= 19 || %{?rhel}%{!?rhel:0} >= 7
 # Remove files that should be replaced during bootstrap
 rm -rf autom4te.cache
 
 autoreconf -if
-%endif
 
 %configure \
            --disable-static \
@@ -115,11 +73,11 @@ rm -f $RPM_BUILD_ROOT%{_bindir}/s3
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post %{?nmainpkg} -p /sbin/ldconfig
+%post -p /sbin/ldconfig
 
-%postun %{?nmainpkg} -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
 
-%files %{?nmainpkg}
+%files
 %defattr(-,root,root,-)
 %{_libdir}/libglobus_s3.so.*
 
